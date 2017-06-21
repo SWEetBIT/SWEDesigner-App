@@ -1,0 +1,16 @@
+{
+  "name": "persona",
+  "private" : true,
+  "attrP": [
+      {"typeP": "string", "varP": "nome"},
+      {"typeP": "string", "varP": "cognome"},
+      {"typeP": "int", "varP": "età", "defP": true, "valueP": "3"}
+       ],
+  "public" : true,
+  "methodsPU": [
+    {"typeMethodPU": "string", "nameMethodPU": "getNome"},
+    {"typeMethodPU": "void", "nameMethodPU": "setNome", "paramPU":[
+      {"lastPU": true, "tParPUL": "string", "nParPUL": "n"}
+    ]}
+  ]
+}
