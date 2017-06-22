@@ -66,7 +66,7 @@ module.exports ={
         });
         });
     },
-    ins_crypt_param: function(k, i){
+    ins_crypt_param: function(k, i, cb){
                 var chiave_cript= new chiave({
                     "key_code":k,
                     "iv_code":i
@@ -79,6 +79,7 @@ module.exports ={
                     else {
                         console.log("Salvataggio chiave riuscito: "+chiave_cript);
                         //res.send(true);
+                        cb();
                     }
                 });
     },
@@ -93,25 +94,17 @@ module.exports ={
 
         });
     },
-   /* load_keyCrypt: function(){
-                //app.post('/return_key', function(req, res){
-                chiave.find('key_code id_code', function(err, chiav){
-                if(err) console.log(err);
-                else{
-                    //res.send(chiav);
-                    //console.log(chiav);
-                    return chiav;
-                }
-            });
-        //});
-    },*/
     load_keyCrypt: function(cb){
                 chiave.find('key_code id_code', function(err, keys){
-                    if(err){console.log(err);}
+                    if(err){
+                        console.log(err);
+                        cb(true, keys);
+                    }
                     else{
                         var json = keys.map(function(p){
                                 return p.toJSON()
                             })
+                            console.log(json);
                             cb(false, json);
                     }
                 })        

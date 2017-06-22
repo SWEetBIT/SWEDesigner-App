@@ -7,12 +7,12 @@ module.exports = {
     mu.root = "../server/templates/";
 
     [
-      'moustache'
+      'classiJava'
     ].forEach(function(name){
       
       mu.compileAndRender(name  + '.html', myMu).on('data',
       function (data){
-        console.log(data.toString());
+        //diocane con data
       });
     });
   }

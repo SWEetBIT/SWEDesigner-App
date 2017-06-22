@@ -15,16 +15,97 @@ const app = express();
 //port
 const port = 3000;
 
-app.use(bodyParser.text());
-app.post("/salvatore", function(req, res){
-  var myBytes = req.body;
-  var encripted = encr.encrypt(myBytes);
+//BodyParser init
+app.use(bodyParser.json());
+
+//global var
+var keyCrypt;
+var ivCrypt;
+var encripted;
+var errRead = "error loading request parameters";
+
+//global Fun
+function loadCryptParam(){
+  db.load_keyCrypt(function(err, res){
+    if(err){
+      console.log(err);
+    }
+    else{
+      keyCrypt = res[0].key_code;
+      ivCrypt = res[0].iv_code;
+      console.log("parameters loaded correctly");
+    }
+  })
+}
+
+//DEBUG & TESTING
+app.post("/test", function(req, res){
   var key = encr.get_key();
   var iv = encr.get_iv();
-  db.ins_crypt_param(key, iv);
+  db.ins_crypt_param(key, iv, function(){
+    loadCryptParam();
+  });
+})
+
+//Express routing
+
+  //Init Server
+  app.post("/start", function(req, res){
+      //generate crypt Param
+      db.load_keyCrypt(function (err,res) {
+        if(!err && res == ""){ //first time -> create param, insert them in db and retry to load them
+          var key = encr.get_key();
+          var iv = encr.get_iv();
+          db.ins_crypt_param(key, iv, function(){
+            console.log("parameters created correctly");
+            loadCryptParam();
+          });
+        }
+        else if(!err){ // param already exist -> simply load them
+          loadCryptParam();
+        }
+        else if(err){ // trouble with loading
+          console.log(errRead);
+        }
+    });
+  })
+
+  //Db request
+  app.post("/drop", function(req, res){
+    db.drop_schema();
+    res.send("Schema dropped");
+  })
+
+  //Utility Func
+    //Encrypt/Decrypt
+      app.post("/encrypt", function(req,res){
+        var myBytes = JSON.stringify(req.body);
+        console.log(myBytes);
+        encripted = encr.encrypt(myBytes, keyCrypt, ivCrypt);
+        console.log("File cripted correctly");
+        res.send(encripted.data);
+      })
+      app.post("/decrypt", function(req,res){
+        //console.log(encripted);
+        var decripted = encr.decrypt(encripted, keyCrypt, ivCrypt);
+        console.log("File decripted correctly");
+        res.send(decripted);
+      })
+    //Parsing/Generate
+      app.post("/parsing", function(req,res) { //modifica per il return e fai un callback
+        var myMu = req.body;
+        var parsed = mu.parse(myMu);
+        res.send(parsed);
+      })
+
+
+
+/*app.post("/salvatore", function(req, res){
+  var myBytes = req.body;
+  var encripted = encr.encrypt(myBytes); // modifca funziona per param iv e key
   encr.decrypt(encripted);
   res.send("funziona?");
-})
+})*/
 
 
   /*app.post('/ins_utente', function(req,res){
@@ -35,26 +116,6 @@ app.post("/salvatore", function(req, res){
 
     });
   })*/
-
-
-app.post("/drop", function(req, res){
-  db.drop_schema();
-  res.send("droppato");
-})
-
-app.post("/test", function(req, res){
-  var cryptPar = db.load_keyCrypt(function(err,res) {
-    //console.log(res);
-    var k = res[0].key_code;
-    console.log(k);
-  });
-  
-  //var data = JSON.parse(cryptPar);
-  //console.log(data);
-  /*var k = data[0].key_code;
-  var i = data[0].iv_code;
-  res.send("key:" + k + "iv:" + i);*/
-})
 
 /*app.use(bodyParser.json());
 app.post("/salvatore", function(req,res) {
