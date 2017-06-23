@@ -94,8 +94,13 @@ app.post("/test", function(req, res){
     //Parsing/Generate
       app.post("/parsing", function(req,res) { //modifica per il return e fai un callback
         var myMu = req.body;
-        var parsed = mu.parse(myMu);
-        res.send(parsed);
+        /*mu.parse(myMu, function(parsed){
+          //res.send(parsed);
+          //console.log("lol");
+        });*/
+        mu.parsing(myMu, function(parsed){
+          res.send(parsed);
+        });
       })
 
 
