@@ -16,26 +16,3 @@ module.exports = {
     })
   }
 };
-
-
-/*Mustache.parse(template);
-
-// Then, sometime later.
-Mustache.render(template, view);*/
-
-/*function(myMu, cb){
-    mu.root = "../server/templates/";
-    var dataParsed;
-
-    [
-      'classiJava'
-    ].forEach(function(name){
-      
-      mu.compileAndRender(name  + '.html', myMu).on('data',
-      function (data){
-        //console.log(data.toString());
-        dataParsed = dataParsed + data.toString();
-      });
-      console.log(dataParsed);
-    });
-  }*/

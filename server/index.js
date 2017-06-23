@@ -105,12 +105,7 @@ app.post("/test", function(req, res){
 
 
 
-/*app.post("/salvatore", function(req, res){
-  var myBytes = req.body;
-  var encripted = encr.encrypt(myBytes); // modifca funziona per param iv e key
-  encr.decrypt(encripted);
-  res.send("funziona?");
-})*/
+
 
 
   /*app.post('/ins_utente', function(req,res){
@@ -121,15 +116,6 @@ app.post("/test", function(req, res){
 
     });
   })*/
-
-/*app.use(bodyParser.json());
-app.post("/salvatore", function(req,res) {
-  var myMu = req.body;
-  mu.parse(myMu);
-  res.send("madonna ladra");
-})*/
-
-
 
 app.listen(port, ()=>{
   console.log("SERVER WORKS!!!" + port);
