@@ -2,7 +2,7 @@ var database= require('./database'); 			//Importazione database
 var mongoose = require('mongoose'); 	//Importazione modulo mongoose
 var proget= mongoose.model('Progetto', proget);		//Istanziazione schema progetto
 var chiave= mongoose.model('key', chiave);		//Istanziazione schema chiave
-var mongodb= require('mongoDB');
+var mongodb= require('mongodb');
 var db = mongoose.connection;			//Connessione database
 //mongoose.Promise = global.Promise;
 
