@@ -1,4 +1,48 @@
-//moustache
+//Init Services, Database & logic var
+
+  //moustache
+  const mu = require('./controller/middleware/parse');
+
+  //forge
+  var encr = require('./controller/middleware/encrypt');
+
+  //db
+  var db = require('./model/mongooseConnection');
+  var mongooseRequest = require('./model/mongooseRequest');
+
+  //express
+  const express = require('express');
+  var bodyParser = require('body-parser');
+  const app = express();
+
+  //port
+  const port = 3000;
+
+  //global var
+  var keyCrypt;
+  var ivCrypt;
+  var encripted;
+  var errRead = "error loading request parameters";
+
+//Init Server
+const server = require('./serverLoader'); // function loading server
+/* -- DA INSERIRE NEL LISTEN --
+var keys = server.load(db, mongooseRequest, mu, encr, function(keys){
+  keyCrypt = keys[0];
+  ivCrypt = keys[1];
+});
+
+//-- fine inserimento nel listen -- */
+app.listen(port, ()=>{
+  console.log("SERVER WORKS!!!" + port);
+
+  var keys = server.load(db, mongooseRequest, mu, encr, function(keys){
+    keyCrypt = keys[0];
+    ivCrypt = keys[1];
+  });
+});
+
+/* //moustache
 const mu = require('./utility/parser');
 
 //forge
@@ -94,10 +138,6 @@ app.post("/test", function(req, res){
     //Parsing/Generate
       app.post("/parsing", function(req,res) { //modifica per il return e fai un callback
         var myMu = req.body;
-        /*mu.parse(myMu, function(parsed){
-          //res.send(parsed);
-          //console.log("lol");
-        });*/
         mu.parsing(myMu, function(parsed){
           res.send(parsed);
         });
@@ -108,15 +148,12 @@ app.post("/test", function(req, res){
 
 
 
-  /*app.post('/ins_utente', function(req,res){
+  --commenta--app.post('/ins_utente', function(req,res){
 
     db.ins_user({username: req.body.username, password: req.body.password}, function(err, data) {
 
 
 
     });
-  })*/
+  }) --commenta--*/
 
-app.listen(port, ()=>{
-  console.log("SERVER WORKS!!!" + port);
-});
