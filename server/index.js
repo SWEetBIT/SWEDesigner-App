@@ -22,7 +22,8 @@
   app.use(bodyParser.json());
 
   //Handling degli errori
-  //definire app.use(error.nomefunzione())
+  //definire app.use(error.nomefunzione()) 
+  //vengono chiamate da sè per ogni errore grazie ai next
 
   //port
   const port = 3000;
