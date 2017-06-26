@@ -4,7 +4,7 @@
   "attrP": [
       {"typeP": "string", "varP": "nome"},
       {"typeP": "string", "varP": "cognome"},
-      {"typeP": "int", "varP": "età", "defP": true, "valueP": "3"}
+      {"typeP": "int", "varP": "eta", "defP": true, "valueP": "3"}
        ],
   "public" : true,
   "methodsPU": [
