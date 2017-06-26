@@ -1,7 +1,7 @@
 //Init Services, Database & logic var
 
   //moustache
-  //const mu = require('./controller/middleware/parse');
+  const mu = require('./controller/middleware/parse');
 
   //forge
   var encr = require('./controller/middleware/encrypt');
@@ -33,7 +33,7 @@ const server = require('./serverLoader'); // function loading server
 app.listen(port, ()=>{
   console.log("SERVER WORKS!!!" + port);
 
-  server.load(db, mongooseRequest, encr, function(keys){
+  server.load(db, mongooseRequest, mu, encr, function(keys){
     keyCrypt = keys[0];
     ivCrypt = keys[1];
   });
@@ -53,6 +53,14 @@ app.listen(port, ()=>{
     var decripted = encr.decrypt(encripted, keyCrypt, ivCrypt);
     console.log("File decripted correctly");
     res.send(decripted);
+  })
+  //Parsing/Generate
+  app.post("/parsing", function(req,res) { //modifica per il return e fai un callback
+    var myMu = req.body;
+    var template = mu.getTemplate();
+    mu.parse(template, myMu, function(parsed){
+      res.send(parsed);
+    });
   })
 
 /* //moustache

@@ -8,17 +8,17 @@
     "start": "node index"
   },
   "dependencies": {
-    "express": "*",
-    "mongoose": "*",
-    "mu2": "*",
-    "passport": "*",
-    "bcryptjs": "*",
-    "cors": "*",
-    "jsonwebtoken": "*",
-    "body-parser": "*",
-    "passport-jwt": "*",
-    "node-forge": "*",
-    "mongodb": "*"
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "mongodb": "^2.2.29",
+    "mongoose": "^4.11.0",
+    "mu2": "^0.5.21",
+    "node-forge": "^0.7.1",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1"
   },
   "author": "spilo",
   "license": "ISC"

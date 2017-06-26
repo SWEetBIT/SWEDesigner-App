@@ -19,7 +19,7 @@ function loadCryptParam(db, cb){
 
 
 module.exports = {
-    load : function(db, mR, encr, cb){
+    load : function(db, mR, mu, encr, cb){ 
 
         //Connect to Database
         db.conn();
@@ -47,6 +47,6 @@ module.exports = {
             }
         });
 
-        //middleware.load();
+        middleware.load();
     }
 }

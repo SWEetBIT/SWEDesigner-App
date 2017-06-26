@@ -19,14 +19,15 @@ module.exports = {
         //console.log("file" + " " + myEncr.toHex());
         var decipher = forge.cipher.createDecipher('AES-CBC', key);
         decipher.start({iv: iv});
-        decipher.update();
+        decipher.update(myEncr);
         decipher.finish();
         // outputs decrypted string
         var decrypted = decipher.output;
         //console.log(decrypted);
         var jsonDecr = JSON.stringify(decrypted.toString());
+        var str = jsonDecr.split('\\').join('\r');
         //console.log("file decrittato" + " " + jsonDecr);
-        return jsonDecr;
+        return str;
     },
     get_key: function(){
         var key = forge.random.getBytesSync(16);
