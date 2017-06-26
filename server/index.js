@@ -1,7 +1,7 @@
 //Init Services, Database & logic var
 
   //moustache
-  const mu = require('./controller/middleware/parse');
+  //const mu = require('./controller/middleware/parse');
 
   //forge
   var encr = require('./controller/middleware/encrypt');
@@ -15,6 +15,9 @@
   var bodyParser = require('body-parser');
   const app = express();
 
+  //BodyParser init
+  app.use(bodyParser.json());
+
   //port
   const port = 3000;
 
@@ -26,21 +29,31 @@
 
 //Init Server
 const server = require('./serverLoader'); // function loading server
-/* -- DA INSERIRE NEL LISTEN --
-var keys = server.load(db, mongooseRequest, mu, encr, function(keys){
-  keyCrypt = keys[0];
-  ivCrypt = keys[1];
-});
 
-//-- fine inserimento nel listen -- */
 app.listen(port, ()=>{
   console.log("SERVER WORKS!!!" + port);
 
-  var keys = server.load(db, mongooseRequest, mu, encr, function(keys){
+  server.load(db, mongooseRequest, encr, function(keys){
     keyCrypt = keys[0];
     ivCrypt = keys[1];
   });
 });
+
+//Express routing
+  //Encrypt/Decrypt
+  app.post("/encrypt", function(req,res){
+    var myBytes = JSON.stringify(req.body);
+    //console.log(myBytes);
+    encripted = encr.encrypt(myBytes, keyCrypt, ivCrypt);
+    console.log("File cripted correctly");
+    res.send(encripted.data);
+  })
+  app.post("/decrypt", function(req,res){
+    //console.log(encripted);
+    var decripted = encr.decrypt(encripted, keyCrypt, ivCrypt);
+    console.log("File decripted correctly");
+    res.send(decripted);
+  })
 
 /* //moustache
 const mu = require('./utility/parser');

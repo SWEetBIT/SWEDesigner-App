@@ -7,13 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index"
   },
-  "dependencies":{
+  "dependencies": {
     "express": "*",
     "mongoose": "*",
     "mu2": "*",
     "passport": "*",
     "bcryptjs": "*",
-    "cors":"*",
+    "cors": "*",
     "jsonwebtoken": "*",
     "body-parser": "*",
     "passport-jwt": "*",

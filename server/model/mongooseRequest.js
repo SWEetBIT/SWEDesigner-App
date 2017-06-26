@@ -109,7 +109,7 @@ load_keyCrypt: function(cb){
               var json = keys.map(function(p){
                       return p.toJSON()
                   })
-                  console.log(json);
+                  //console.log(json);
                   cb(false, json);
           }
       })        

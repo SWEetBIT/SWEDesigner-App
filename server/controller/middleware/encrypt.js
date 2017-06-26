@@ -2,10 +2,10 @@ var encr = require('../services/encryptService');
 
 module.exports = {
     encrypt : function(myFile, key, iv){
-        encr.encrypt(myFile, key, iv);
+        return encr.encrypt(myFile, key, iv);
     },
-    derypt : function(myFIle, key, iv){
-        encr.decrypt(myFIle, key, iv);
+    decrypt : function(myFile, key, iv){
+        return encr.decrypt(myFile, key, iv);
     },
     getKey : function(){
         encr.get_key();

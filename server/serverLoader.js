@@ -2,7 +2,7 @@
 var middleware = require('./controller/middleware/midLoader');
 
 //Loading var istance
-function loadCryptParam(db){
+function loadCryptParam(db, cb){
     db.load_keyCrypt(function(err, res){
         if(err){
             console.log(err);
@@ -11,7 +11,8 @@ function loadCryptParam(db){
             var keyCrypt = res[0].key_code;
             var ivCrypt = res[0].iv_code;
             console.log("parameters loaded correctly");
-            return [keyCrypt, ivCrypt];
+            var data = [keyCrypt, ivCrypt];
+            cb(data);
         }
     })
 }
@@ -30,17 +31,22 @@ module.exports = {
               var iv = encr.get_iv();
               mR.ins_crypt_param(key, iv, function(){
                 console.log("parameters created correctly");
-                 cb(loadCryptParam(mR));
+                var keys = loadCryptParam(mR);
+                console.log(keys);
+                return keys;
               });
             }
             else if(!err){ // param already exist -> simply load them
-                cb(loadCryptParam(mR));
+                loadCryptParam(mR, function(keys){
+                    //console.log(keys);
+                    cb(keys);
+                });
             }
             else if(err){ // trouble with loading
               console.log(errRead);
             }
         });
 
-        middleware.load();
+        //middleware.load();
     }
 }
