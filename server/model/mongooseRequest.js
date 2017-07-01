@@ -1,3 +1,10 @@
+/**
+ * @module mongooseRequest
+ * @description
+ * This module manage the query to MongoDB
+ * @see module:moongoseConnection
+ */
+
 //Istanziazione schemi
 var cryptSchema = require('./cryptKeySchema');
 var projectSchema = require('./projectsSchema');
@@ -71,6 +78,15 @@ ins_proj: function(){
 });
 });
 },
+/**
+ * @function ins_crypt_param
+ * @description
+ * This query insert into database the crypt values
+ * @param {string} k Crypt key
+ * @param {string} i iv key
+ * @param {cryptQuery} cb The callback that handles the response. 
+ * @see keyschema
+ */
 ins_crypt_param: function(k, i, cb){
       var chiave_cript= new chiave({
           "key_code":k,
@@ -99,6 +115,12 @@ load_allProj: function(){
 
 });
 },
+/**
+* @function load_keyCrypt
+* @description
+* This query request to database the crypt values
+* @param {cryptQuery} cb The callback that handles the response. 
+*/
 load_keyCrypt: function(cb){
       chiave.find('key_code id_code', function(err, keys){
           if(err){
@@ -235,6 +257,12 @@ delete_usr: function(){
   });
 });
 },
+/**
+ * @function drop_schema
+ * @description
+ * This function delete database
+ * @return {void}
+ */
 drop_schema: function(){
   mongoose.connection.db.dropDatabase(function(err){
   if(err){

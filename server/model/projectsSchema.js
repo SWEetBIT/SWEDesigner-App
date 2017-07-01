@@ -4,6 +4,11 @@ var Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 //Creazione schema progetti
+/**
+* @constructor 
+* @description 
+* Create a new schema for a project
+*/
 var proget= new Schema({
 	nome_progetto: {
 		$type: String,

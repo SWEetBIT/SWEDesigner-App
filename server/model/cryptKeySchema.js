@@ -4,6 +4,11 @@ var Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 //Creazione schema per chiave criptografica
+/**
+* @constructor 
+* @description 
+* Create a new schema for a crypt key
+*/
 var keyschema= new Schema(
 	{
 		key_code: String,

@@ -12,6 +12,7 @@
     "body-parser": "^1.17.2",
     "cors": "^2.8.3",
     "express": "^4.15.3",
+    "jsdoc": "*",
     "jsonwebtoken": "^7.4.1",
     "mongodb": "^2.2.29",
     "mongoose": "^4.11.0",
@@ -21,5 +22,8 @@
     "passport-jwt": "^2.2.1"
   },
   "author": "spilo",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "tui-jsdoc-template": "^1.1.0"
+  }
 }
