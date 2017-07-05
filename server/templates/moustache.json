@@ -8,9 +8,11 @@
        ],
   "public" : true,
   "methodsPU": [
-    {"typeMethodPU": "string", "nameMethodPU": "getNome"},
-    {"typeMethodPU": "void", "nameMethodPU": "setNome", "paramPU":[
-      {"lastPU": true, "tParPUL": "string", "nParPUL": "n"}
-    ]}
+    {"main": "true", "corpoM": "System.out.println(\"dio cane\")"},
+    {"notMain": [
+      {"typeMethodPU": "string", "nameMethodPU": "getNome", "corpoME": "return name;"},
+      {"typeMethodPU": "void", "nameMethodPU": "setNome", "paramPU":[
+        {"lastPU": true, "tParPUL": "string", "nParPUL": "n"}
+      ], "corpoME": "name = n;"}]}
   ]
 }

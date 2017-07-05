@@ -9,7 +9,7 @@
 /**
  * @file Moustache template for generating Java code
  */
-var template = "../server/templates/classiJava.html";
+var template = "../server/templates/template.html";
 
 //inizialize parser
 const mu = require('mu2');
