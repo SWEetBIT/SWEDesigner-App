@@ -68,13 +68,14 @@ module.exports = {
         //Loading crypt Key
         mR.load_keyCrypt(function (err,res) {
             if(!err && res == ""){ //first time -> create param, insert them in db and retry to load them
-              var key = encr.get_key();
-              var iv = encr.get_iv();
+              var key = encr.getKey();
+              var iv = encr.getIv();
               mR.ins_crypt_param(key, iv, function(){
                 console.log("parameters created correctly");
-                var keys = loadCryptParam(mR);
-                console.log(keys);
-                return keys;
+                loadCryptParam(mR, function(keys){
+                    //console.log(keys);
+                    cb(keys);
+                });
               });
             }
             else if(!err){ // param already exist -> simply load them

@@ -18,65 +18,81 @@ var user = mongoose.model('utente', user);
 //connessione database
 var db = mongoose.connection;
 
-//QUERY --DA SISTEMARE--
-/*ins_usr: function(data, cb){
-    //Funzione di inserimento utente, ritorna true se l'inserimento è andato a buon fine, false altrimenti
-  var ins= new user({
-      username: data.username,
-      pass: req.body.pass,
-      email: req.body.email
-  });
-  ins.save(function(err) {
-  if (err) {
-      cb(err, null);
-  }
-  else{
-     cb(false, ins);
-  }
-  });
-},*/
+/*
+app.post('/ins_utente',function(req,res){	//Funzione di inserimento utente, ritorna true se l'inserimento è andato a buon fine, false altrimenti
+var ins= new user({
+    username: req.body.username,
+    pass: req.body.pass,
+    email: req.body.email
+});
+ins.save(function(err) {
+if (err) {
+    console.log(err);
+    res.send(false);
+}
+else{
+    console.log("Salvataggio utente riuscito: "+ins);
+    res.send(true);
+}
+});
+});
+*/
+
+/*
+ins_crypt_param: function(k, i, cb){
+    var chiave_cript= new chiave({
+        "key_code":k,
+        "iv_code":i
+        });
+        chiave_cript.save(function(err){
+        if(err){
+            console.log(err);
+            //res.send(false);
+        }
+        else {
+            console.log("Salvataggio chiave riuscito: "+chiave_cript);
+            //res.send(true);
+            cb();
+        }
+    });
+},
+*/
 
 module.exports ={
 //INSERIMENTI
-ins_usr: function(){
-  app.post('/ins_utente',function(req,res){	//Funzione di inserimento utente, ritorna true se l'inserimento è andato a buon fine, false altrimenti
-  var ins= new user({
-      username: req.body.username,
-      pass: req.body.pass,
-      email: req.body.email
-  });
-  ins.save(function(err) {
-  if (err) {
-      console.log(err);
-      res.send(false);
-  }
-  else{
-      console.log("Salvataggio utente riuscito: "+ins);
-      res.send(true);
-  }
-  });
-});
+ins_usr: function(usr, pwd, mail, cb){  
+    var ins= new user({
+        username: usr,
+        pass: pwd,
+        email: mail
+    });
+    ins.save(function(err) {
+        if (err) {
+            console.log(err);
+            cb(true, "");
+        }
+        else{
+            console.log("Salvataggio utente riuscito: "+ins);
+            cb(false, "inserted: "+ins);
+        }
+    });
 },
-ins_proj: function(){
-  app.post('/ins_progetto',function(req,res){	//Funzione di inserimento progetto, ritorna true se l'inserimento è andato a buon fine, false altrimenti
-      console.log("Si funziono o forse no");
-      var ins= new proget({
-      nome_progetto: req.body.nome_progetto,
-      username: req.body.username,
-      progetto: req.body.progetto
+ins_proj: function(name, usr, proj, cb){
+    var ins= new proget({
+    nome_progetto: name,
+    username: usr,
+    project: proj
   });
-  console.log(ins);
   ins.save(function(err) {
-  if (err){
-  console.log(err);
-  res.send(false);
-  }
-  else{
-      console.log("Salvataggio progetto riuscito: "+ins);
-      res.send(true);
-  }
-});
-});
+        if (err){
+            console.log(err);
+            cb(true, "");
+        }
+        else{
+            console.log("Salvataggio progetto riuscito: "+ins);
+            cb(false, "Salvataggio progetto riuscito: "+ins);
+        }
+    });
 },
 /**
  * @function ins_crypt_param
@@ -105,15 +121,17 @@ ins_crypt_param: function(k, i, cb){
       });
 },
 // 		FUNZIONI CON RITORNO DATI SALVATI NEL DATABASE
-load_allProj: function(){
-      app.post('/all_progetti', function(req, res){	//Funzione che ritorna i nomi dei progetti dato un utente
-      proget.find({'username': req.body.username},' -_id nome_progetto', function(err, progetti){
-      if(err) console.log(err);
-      console.log(progetti);
-      res.send(progetti);
+load_allProj: function(username, cb){
+      proget.find({'username': username},' -_id nome_progetto', function(err, progetti){
+      if(err){
+          console.log("errore nel carimento dei progetti");
+          cb(true, "");
+        }
+        else{
+            console.log("progetti caricati correttamente");
+            cb(false, progetti);
+        }
   });
-
-});
 },
 /**
 * @function load_keyCrypt
@@ -136,27 +154,45 @@ load_keyCrypt: function(cb){
           }
       })        
 },
-load_proj: function(){
-      app.post('/ritorna_progetto', function(req, res){	//Funzione che ritorna un progetto dato un nome progetto e un utente
-      proget.findOne({'nome_progetto': req.body.nome_progetto, 'username': req.body.username}, '-_id progetto', function(err, ut){
-      if(err) console.log(err);
-      console.log(ut);
-      res.send(ut);
-  });
-});
+load_all_usr : function(cb){
+    user.find({}, function(err, utenti){
+        if(err){
+            console.log("errore caricamento utenti");
+            cb(true, "");
+        }
+        else{
+            cb(false, utenti);
+        }
+    })
 },
-login: function(){
-      app.post('/conferma_utente', function(req, res){	//Funzione che ritorna true se un utente esistente nel database ha inserito la password corretta e false altrimenti
-      user.find({'username': req.body.username, 'pass': req.body.pass}, '-_id username pass', function(err, ut){
-      if(err) console.log(err);
-      if(ut!=""){
-          res.send(true);
-          console.log(ut);
-      }
-      else res.send(false);
+load_proj: function(name, usr, cb){
+    proget.findOne({'nome_progetto': name, 'username': usr}, 'project', function(err, proj){
+      if(err){
+        console.log(err);
+        cb(true, "");
+    }
+    else{
+        cb(false, proj);
+    } 
   });
-
-});
+},
+login: function(mail, pwd, cb){
+      user.find({'mail': mail, 'pass': pwd}, '-_id mail pass', function(err, logged){
+      if(err){
+        console.log(err);
+        cb(true, "errore nel login");
+    }
+    else{
+        if(logged!=""){
+            console.log("utente: "+logged+" loggato perfettamente");
+            cb(false, true)
+        }
+        else{
+            console.log("problema con i dati di login");
+            cb(false, false)
+        }
+    }
+  });
 },
 forgot_mail: function(){
       app.post('/ritorna_email', function(req, res){
@@ -263,14 +299,16 @@ delete_usr: function(){
  * This function delete database
  * @return {void}
  */
-drop_schema: function(){
+drop_schema: function(cb){
   mongoose.connection.db.dropDatabase(function(err){
   if(err){
       console.log(err);
       console.log("no droppato");
+      cb(true, "");
   }
   else{
       console.log("db droppato");
+      cb(false, "db droppato");
   }
   });
 }

@@ -118,3 +118,109 @@ app.listen(port, ()=>{
     });
   })
 
+  //DatabaseQuery
+    //DROP
+      app.post("/dropDB", function(req, res){
+        mongooseRequest.drop_schema(function(err, x){
+          if(err){
+            console.log("errore nel drop del db");
+            res.send("errore nella cancellazione del database");
+          }
+          else{
+            console.log("DB DROPPED");
+            res.send(x);
+          }
+        })
+      })
+    //Users' Query
+      app.post("/insUsr", function(req, res){
+        var usr = req.body.username;
+        var pwd = req.body.pass;
+        var mail = req.body.email;
+        mongooseRequest.ins_usr(usr, pwd, mail, function(err, x){
+          if(err){
+            console.log("inserimento non riuscito");
+            res.send("inserimento non riuscito");
+          }
+          else{
+            console.log(x);
+            res.send(x);
+          }
+        })
+      })
+      app.post("/loadUsers", function(req, res){
+        mongooseRequest.load_all_usr(function(err, utenti){
+          if(err){
+            console.log("errore caricamento utenti");
+            res.send("errore caricamento utenti");
+          }
+          else{
+            console.log("caricamento effettuato: "+utenti);
+            res.send("caricamento effettuato: "+utenti);
+          }
+        })
+      })
+      app.post("/login", function(req, res){
+        var mail = req.body.mail;
+        var pwd = req.body.pass;
+        mongooseRequest.login(mail, pwd, function(err, x){
+          if(err){
+            console.log("Problema di login");
+            res.send("Problema di login");
+          }
+          else{
+            if(x){
+              console.log("loged");
+              res.send("logged");
+            }
+            else{
+              console.log("mannaggia a dio non esiste");
+              res.send("malick negro di merda");
+            }
+          }
+        })
+      })
+    //Projects' Query
+    app.post("/insProject", function(req, res){
+      var name = req.body.nome_progetto;
+      var usr = req.body.username;
+      var proj = req.body.project;
+      mongooseRequest.ins_proj(name, usr, proj, function(err, x){
+        if(err){
+          console.log("problema con l'inserimento di un progetto");
+          res.send("problema con l'inserimento di un progetto");
+        }
+        else{
+          console.log("progetto inserito correttamente: "+x);
+          res.send("progetto inserito correttamente: "+x);
+        }
+      })
+    })
+    app.post("/loadProjects", function(req, res){
+      var usr = req.body.username;
+      mongooseRequest.load_allProj(usr, function(err, projects){
+        if(err){
+          console.log("problema il caricamento dei progetti");
+          res.send("problema il caricamento dei progetti");
+        }
+        else{
+          console.log("Progetti caricati: "+projects);
+          res.send("Progetti caricati: "+projects);
+        }
+      })
+    })
+    app.post("/loadProj", function(req, res){
+      var name = req.body.nome_progetto;
+      var usr = req.body.username;
+      mongooseRequest.load_proj(name, usr, function(err, x){
+        if(err){
+          console.log("problemi con il caricamento del progetto");
+          res.send("problemi con il caricamento del progetto");
+        }
+        else{
+          console.log("progetto caricato: "+x);
+          res.send("progetto caricato: "+x);
+        }
+      })
+    })
+    

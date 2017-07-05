@@ -18,7 +18,7 @@ var proget= new Schema({
 		$type: String,
 		required: true
 	},
-	progetto:{
+	project:{
         $type: Schema.Types.Mixed,
         require: true
 	}

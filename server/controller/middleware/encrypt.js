@@ -39,7 +39,7 @@ module.exports = {
      * @return {string}
      */
     getKey : function(){
-        encr.get_key();
+        return encr.get_key();
     },
     /**
     * @function getIv
@@ -48,6 +48,6 @@ module.exports = {
     * @return {string}
     */
     getIv : function(){
-        encr.get_iv();
+        return encr.get_iv();
     }
 }
